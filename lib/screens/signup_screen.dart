@@ -17,16 +17,21 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
     try {
       final credentials = await FirebaseAuth.instance.signInWithProvider(githubProvider);
-
-      print(credentials.additionalUserInfo!.profile!['location']);
+      final profile = credentials.additionalUserInfo!.profile!;
 
       ref.read(userProvider.notifier).createUser(
-            nickName: credentials,
-            name: credentials,
-            avatar: credentials,
+            nickName: profile['login'],
+            name: profile['name'],
+            avatar: profile['avatar_url'],
           );
     } catch (e) {
-      print('💥 $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Action could not be performed. Try again!'),
+          ),
+        );
+      }
     }
   }
 
