@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "253165482632",
+    "project_id": "skillshunt-2791b",
+    "storage_bucket": "skillshunt-2791b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253165482632:android:dccbc172f1def18d1ee53d",
+        "android_client_info": {
+          "package_name": "com.example.skillshunt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeuIk5QejVy46PHFS8_ddq5iPJvAaWC3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
