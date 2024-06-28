@@ -46,7 +46,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SkillsHunt'),
+        title: Text(
+          'SkillsHunt',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+        ),
       ),
       body: Center(
         child: ElevatedButton.icon(

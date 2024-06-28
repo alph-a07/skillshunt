@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:skillshunt/firebase_options.dart';
 import 'package:skillshunt/screens/signup_screen.dart';
 
@@ -17,6 +18,8 @@ final kColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
 );
 
+final kTextTheme = GoogleFonts.jetBrainsMonoTextTheme(ThemeData.dark().textTheme);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -28,6 +31,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ).copyWith(
         colorScheme: kColorScheme,
+        textTheme: kTextTheme,
       ),
       home: const SignupScreen(),
     );

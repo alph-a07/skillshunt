@@ -1,4 +1,4 @@
-import 'skill.dart';
+import '../data/skills.dart';
 
 class User {
   User({

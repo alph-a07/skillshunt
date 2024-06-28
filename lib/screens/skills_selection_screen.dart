@@ -20,12 +20,15 @@ class SkillsSelectionScreen extends ConsumerWidget {
           children: [
             Text(
               ref.read(toNormalTextProvider)(Expertise.beginner.name),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
             ),
             Text(
               ref.read(toNormalTextProvider)(Expertise.intermediate.name),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
             ),
             Text(
               ref.read(toNormalTextProvider)(Expertise.advanced.name),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
             )
           ],
         ),
