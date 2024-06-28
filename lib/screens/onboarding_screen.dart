@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skillshunt/providers/user_provider.dart';
+import 'package:skillshunt/screens/skills_selection_screen.dart';
 import 'package:skillshunt/widgets/gradient_button.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -25,6 +26,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       _nickNameController.text = user!.nickName;
       _nameController.text = user.name;
     });
+  }
+
+  void onNextPressed() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SkillsSelectionScreen(),
+      ),
+    );
   }
 
   @override
@@ -78,7 +87,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             GradientButton(
               label: 'Next',
               icon: Icons.arrow_forward_rounded,
-              onPressed: () {},
+              onPressed: onNextPressed,
             ),
           ],
         ),
