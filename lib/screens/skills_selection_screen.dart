@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:skillshunt/models/skill.dart';
+import 'package:skillshunt/data/skills.dart';
 import 'package:skillshunt/providers/utilities_provider.dart';
 
 class SkillsSelectionScreen extends ConsumerWidget {
@@ -17,20 +17,7 @@ class SkillsSelectionScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              ref.read(toNormalTextProvider)(Expertise.beginner.name),
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
-            ),
-            Text(
-              ref.read(toNormalTextProvider)(Expertise.intermediate.name),
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
-            ),
-            Text(
-              ref.read(toNormalTextProvider)(Expertise.advanced.name),
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
-            )
-          ],
+          children: [],
         ),
       ),
     );
