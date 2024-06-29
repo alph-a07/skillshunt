@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:skillshunt/data/skills.dart';
-import 'package:skillshunt/providers/utilities_provider.dart';
+import 'package:skillshunt/widgets/search_bar.dart';
 
-class SkillsSelectionScreen extends ConsumerWidget {
+class SkillsSelectionScreen extends ConsumerStatefulWidget {
   const SkillsSelectionScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SkillsSelectionScreen> createState() => _SkillsSelectionScreenState();
+}
+
+class _SkillsSelectionScreenState extends ConsumerState<SkillsSelectionScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('What do you know?'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      body: const Padding(
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [],
+          children: [
+            Expanded(child: MySearchBar()),
+          ],
         ),
       ),
     );

@@ -1,5 +1,3 @@
-import '../data/skills.dart';
-
 class User {
   User({
     required this.nickName,
@@ -10,5 +8,5 @@ class User {
   final String nickName;
   final String name;
   final String avatar;
-  List<Skills> skills;
+  List<String> skills;
 }

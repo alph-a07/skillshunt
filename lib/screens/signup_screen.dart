@@ -18,7 +18,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     try {
       final credentials = await FirebaseAuth.instance.signInWithProvider(githubProvider);
       final profile = credentials.additionalUserInfo!.profile!;
-      final isNewUser = credentials.additionalUserInfo!.isNewUser;
 
       ref.read(userProvider.notifier).createUser(
             nickName: profile['login'],
