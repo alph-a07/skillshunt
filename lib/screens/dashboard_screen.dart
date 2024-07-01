@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:skillshunt/screens/insights_screen.dart';
+import 'package:skillshunt/screens/my_learning_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -19,6 +21,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     String activePageTitle = _selectedPageIndex == 0 ? 'My Learning' : 'Insights';
+    Widget activeScreen =
+        _selectedPageIndex == 0 ? const MyLearningScreen() : const InsightsScreen();
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         centerTitle: false,
         automaticallyImplyLeading: false,
       ),
-      body: const Placeholder(),
+      body: activeScreen,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           _setPageIndex(index);
