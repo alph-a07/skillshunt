@@ -22,10 +22,48 @@ class _SkillsSelectionScreenState extends ConsumerState<SkillsSelectionScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MySearchBar(),
-            Column(
-              children: [for (String skill in ref.watch(selectedSkillsProvider)) Text(skill)],
+            const MySearchBar(),
+            const SizedBox(
+              height: 16,
+            ),
+            Wrap(
+              alignment: WrapAlignment.start,
+              direction: Axis.horizontal,
+              runSpacing: 8,
+              spacing: 8,
+              children: [
+                for (String skill in ref.watch(selectedSkillsProvider))
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Theme.of(context).colorScheme.surfaceTint.withAlpha(50),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          skill,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        const SizedBox(width: 4),
+                        InkWell(
+                          onTap: () {},
+                          child: const Icon(
+                            Icons.close_rounded,
+                            size: 16,
+                            color: Colors.white30,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+              ],
             )
           ],
         ),
