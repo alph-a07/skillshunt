@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skillshunt/data/skills.dart';
+import 'package:skillshunt/providers/skills_provider.dart';
 
-class MySearchBar extends StatefulWidget {
-  const MySearchBar({super.key});
+class MySearchBar extends ConsumerStatefulWidget {
+  const MySearchBar({
+    super.key,
+  });
 
   @override
-  State<MySearchBar> createState() => _MySearchBarState();
+  ConsumerState<MySearchBar> createState() => _MySearchBarState();
 }
 
-class _MySearchBarState extends State<MySearchBar> {
+class _MySearchBarState extends ConsumerState<MySearchBar> {
   List<String> _searchResults = [];
-  List<String> _selectedSkills = [];
   final _focusNode = FocusNode();
-  String _globalQuery = '';
+  final _globalQuery = TextEditingController();
 
   @override
   void initState() {
@@ -26,8 +29,8 @@ class _MySearchBarState extends State<MySearchBar> {
     });
   }
 
-  void searchQuery(String value) {
-    final query = value.trim().toLowerCase();
+  void searchQuery(_) {
+    final query = _globalQuery.text.trim().toLowerCase();
 
     if (query.isEmpty) {
       setState(() {
@@ -35,10 +38,6 @@ class _MySearchBarState extends State<MySearchBar> {
       });
       return;
     }
-
-    setState(() {
-      _globalQuery = query;
-    });
 
     List<String> startsWithQuery = [];
     List<String> containsQuery = [];
@@ -58,62 +57,16 @@ class _MySearchBarState extends State<MySearchBar> {
     });
   }
 
-  RichText highlightQuery(String text, String query) {
-    if (query.isEmpty) {
-      return RichText(
-        text: TextSpan(
-          text: text,
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-      );
-    }
-
-    List<TextSpan> spans = [];
-    int start = 0;
-    int indexOfQuery;
-    query = query.toLowerCase();
-
-    while ((indexOfQuery = text.toLowerCase().indexOf(query, start)) != -1) {
-      // Add text before the query
-      if (indexOfQuery > start) {
-        spans.add(TextSpan(
-          text: text.substring(start, indexOfQuery),
-        ));
-      }
-      // Add the query text with bold style
-      spans.add(TextSpan(
-        text: text.substring(indexOfQuery, indexOfQuery + query.length),
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ));
-      start = indexOfQuery + query.length;
-    }
-
-    // Add remaining text after the last query occurrence
-    if (start < text.length) {
-      spans.add(TextSpan(
-        text: text.substring(start),
-      ));
-    }
-
-    return RichText(
-      text: TextSpan(
-        children: spans,
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           padding: const EdgeInsets.all(0),
           child: TextField(
             focusNode: _focusNode,
+            controller: _globalQuery,
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.search_rounded),
               // suffixIcon: const Icon(Icons.close_rounded),
@@ -141,31 +94,86 @@ class _MySearchBarState extends State<MySearchBar> {
           ),
         ),
         const SizedBox(height: 4),
-        Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, index) => ListTile(
-              title: highlightQuery(
-                _searchResults[index],
-                _globalQuery,
+        Visibility(
+          visible: _searchResults.isNotEmpty,
+          child: SizedBox(
+            height: _searchResults.length * 50 < 300 ? _searchResults.length * 50 : 300,
+            child: ListView.builder(
+              itemBuilder: (context, index) => Card(
+                color: Colors.transparent,
+                child: ListTile(
+                  title: highlightQuery(
+                    _searchResults[index],
+                    _globalQuery.text.trim().toLowerCase(),
+                  ),
+                  tileColor: Theme.of(context).colorScheme.tertiaryContainer.withAlpha(80),
+                  dense: true,
+                  key: ValueKey(_searchResults[index]),
+                  visualDensity: VisualDensity.compact,
+                  onTap: () {
+                    setState(() {
+                      ref.read(selectedSkillsProvider.notifier).selectSkill(_searchResults[index]);
+                      _searchResults = [];
+                      _focusNode.unfocus();
+                      onSearchFocusChange();
+                      _globalQuery.clear();
+                    });
+                  },
+                ),
               ),
-              dense: true,
-              key: ValueKey(_searchResults[index]),
-              visualDensity: VisualDensity.compact,
-              onTap: () {
-                setState(() {
-                  _selectedSkills.add(_searchResults[index]);
-                });
-              },
+              itemCount: _searchResults.length,
             ),
-            itemCount: _searchResults.length,
           ),
         ),
-        _selectedSkills.isEmpty
-            ? const Center(
-                child: Text('Add some skills'),
-              )
-            : Placeholder(),
       ],
+    );
+  }
+
+  RichText highlightQuery(String text, String query) {
+    if (query.isEmpty) {
+      return RichText(
+        text: TextSpan(
+          text: text,
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+      );
+    }
+
+    List<TextSpan> spans = [];
+    int start = 0;
+    int indexOfQuery;
+    query = query.toLowerCase();
+
+    while ((indexOfQuery = text.toLowerCase().indexOf(query, start)) != -1) {
+      // Add text before the query
+      if (indexOfQuery > start) {
+        spans.add(TextSpan(
+          text: text.substring(start, indexOfQuery),
+          style: Theme.of(context).textTheme.bodySmall,
+        ));
+      }
+      // Add the query text with bold style
+      spans.add(
+        TextSpan(
+          text: text.substring(indexOfQuery, indexOfQuery + query.length),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+        ),
+      );
+      start = indexOfQuery + query.length;
+    }
+
+    // Add remaining text after the last query occurrence
+    if (start < text.length) {
+      spans.add(TextSpan(
+        text: text.substring(start),
+      ));
+    }
+
+    return RichText(
+      text: TextSpan(
+        children: spans,
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
     );
   }
 }
