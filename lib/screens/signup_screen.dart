@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skillshunt/providers/user_provider.dart';
+import 'package:skillshunt/screens/dashboard_screen.dart';
 import 'package:skillshunt/screens/onboarding_screen.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
@@ -18,17 +19,26 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     try {
       final credentials = await FirebaseAuth.instance.signInWithProvider(githubProvider);
       final profile = credentials.additionalUserInfo!.profile!;
+      final isNewUser = credentials.additionalUserInfo!.isNewUser;
 
-      ref.read(userProvider.notifier).createUser(
-            nickName: profile['login'],
-            name: profile['name'],
-            avatar: profile['avatar_url'],
-          );
-
-      if (context.mounted) {
+      if (!isNewUser) {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          MaterialPageRoute(
+            builder: (context) => const DashboardScreen(),
+          ),
         );
+      } else {
+        ref.read(userProvider.notifier).createUser(
+              nickName: profile['login'],
+              name: profile['name'],
+              avatar: profile['avatar_url'],
+            );
+
+        if (context.mounted) {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          );
+        }
       }
     } catch (e) {
       if (context.mounted) {
