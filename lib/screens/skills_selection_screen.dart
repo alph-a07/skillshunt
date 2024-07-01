@@ -53,7 +53,9 @@ class _SkillsSelectionScreenState extends ConsumerState<SkillsSelectionScreen> {
                         ),
                         const SizedBox(width: 4),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            ref.read(selectedSkillsProvider.notifier).unselectSkill(skill);
+                          },
                           child: const Icon(
                             Icons.close_rounded,
                             size: 16,

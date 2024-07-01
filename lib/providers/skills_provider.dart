@@ -8,6 +8,12 @@ class SelectedSkillsNotifier extends StateNotifier<List<String>> {
 
     state = [...state, skill];
   }
+
+  void unselectSkill(String skill) {
+    if (!state.contains(skill)) return;
+
+    state = state.where((item) => item != skill).toList();
+  }
 }
 
 final selectedSkillsProvider =
