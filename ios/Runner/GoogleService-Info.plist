@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:253165482632:ios:3cd8a0278188ee3f1ee53d</string>
+	<key>DATABASE_URL</key>
+	<string>https://skillshunt-2791b-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>

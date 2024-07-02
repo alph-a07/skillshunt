@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skillshunt/firebase_options.dart';
+import 'package:skillshunt/screens/dashboard_screen.dart';
 import 'package:skillshunt/screens/signup_screen.dart';
 
 void main() async {
@@ -33,7 +35,9 @@ class MyApp extends StatelessWidget {
         colorScheme: kColorScheme,
         textTheme: kTextTheme,
       ),
-      home: const SignupScreen(),
+      home: FirebaseAuth.instance.currentUser != null
+          ? const DashboardScreen()
+          : const SignupScreen(),
     );
   }
 }
