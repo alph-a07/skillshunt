@@ -9,7 +9,7 @@ Future<MyUser.User?> fetchUser() async {
 
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final snapshot = await FirebaseDatabase.instance.ref('users/$uid').get();
-  final userData = snapshot.value as Map<String, dynamic>;
+  final userData = Map<String, dynamic>.from(snapshot.value as Map);
 
   final user = MyUser.User(
     nickName: userData['nickName'],
