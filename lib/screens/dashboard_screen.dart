@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skillshunt/providers/user_provider.dart';
 import 'package:skillshunt/screens/insights_screen.dart';
 import 'package:skillshunt/screens/my_learning_screen.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   int _selectedPageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(userProvider.notifier).updateUser();
+  }
 
   void _setPageIndex(int index) {
     setState(() {
