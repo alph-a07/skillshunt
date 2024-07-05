@@ -17,7 +17,7 @@ Future<my_user.User?> fetchUser() async {
     avatar: userData['avatar'],
   );
 
-  user.skills = userData['skills'];
+  user.skills = (userData['skills'] as List<Object?>).map((e) => e.toString()).toList();
 
   return user;
 }
