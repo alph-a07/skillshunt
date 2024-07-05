@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skillshunt/providers/user_provider.dart';
 import 'package:skillshunt/screens/insights_screen.dart';
 import 'package:skillshunt/screens/my_learning_screen.dart';
+import 'package:skillshunt/screens/signup_screen.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -45,6 +47,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           title: Text(activePageTitle),
           centerTitle: false,
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => SignupScreen()));
+                },
+                icon: const Icon(Icons.power_settings_new_rounded))
+          ],
         ),
         body: activeScreen,
         bottomNavigationBar: BottomNavigationBar(
