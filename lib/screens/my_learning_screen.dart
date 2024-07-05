@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:skillshunt/widgets/skill_tile.dart';
 
 class MyLearningScreen extends StatelessWidget {
   const MyLearningScreen({super.key});
