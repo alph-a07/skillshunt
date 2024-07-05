@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skillshunt/providers/user_provider.dart';
 import 'package:skillshunt/screens/dashboard_screen.dart';
 import 'package:skillshunt/screens/onboarding_screen.dart';
 
@@ -30,6 +31,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           'avatar': profile['avatar_url'],
         },
       );
+
+      ref.read(userProvider.notifier).updateUser();
 
       if (!isNewUser) {
         Navigator.of(context).push(

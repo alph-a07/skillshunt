@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skillshunt/providers/skills_provider.dart';
+import 'package:skillshunt/providers/user_provider.dart';
 import 'package:skillshunt/screens/dashboard_screen.dart';
 import 'package:skillshunt/widgets/gradient_button.dart';
 import 'package:skillshunt/widgets/search_bar.dart';
@@ -13,6 +14,16 @@ class SkillsSelectionScreen extends ConsumerStatefulWidget {
 }
 
 class _SkillsSelectionScreenState extends ConsumerState<SkillsSelectionScreen> {
+  void onSaveSkills() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const DashboardScreen(),
+      ),
+    );
+
+    ref.read(selectedSkillsProvider.notifier).uploadSkills();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,10 +83,7 @@ class _SkillsSelectionScreenState extends ConsumerState<SkillsSelectionScreen> {
               ),
             ),
             GradientButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => const DashboardScreen()));
-              },
+              onPressed: onSaveSkills,
               label: 'Start Learning',
               icon: Icons.rocket,
             ),
