@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:skillshunt/providers/user_provider.dart';
+import 'package:skillshunt/models/user.dart';
 import 'package:skillshunt/screens/skills_selection_screen.dart';
 import 'package:skillshunt/widgets/gradient_button.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
-  const OnboardingScreen({super.key});
+  const OnboardingScreen(
+      {required this.nickName, required this.name, required this.avatar, super.key});
+
+  final String nickName;
+  final String name;
+  final String avatar;
 
   @override
   ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -14,6 +19,7 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   String? nickName;
   String? name;
+  User? user;
 
   final _nameController = TextEditingController();
   final _nickNameController = TextEditingController();
@@ -22,9 +28,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final user = ref.read(userProvider);
-      _nickNameController.text = user!.nickName;
-      _nameController.text = user.name;
+      _nickNameController.text = widget.nickName;
+      _nameController.text = widget.name;
     });
   }
 
@@ -38,8 +43,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.read(userProvider);
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -50,7 +53,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               height: 150,
               width: 150,
               child: CircleAvatar(
-                child: Image.network(user!.avatar),
+                child: Image.network(widget.avatar),
               ),
             ),
             const SizedBox(

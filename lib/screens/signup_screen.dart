@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:skillshunt/providers/user_provider.dart';
 import 'package:skillshunt/screens/dashboard_screen.dart';
 import 'package:skillshunt/screens/onboarding_screen.dart';
 
@@ -20,19 +19,20 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     try {
       final credentials = await FirebaseAuth.instance.signInWithProvider(githubProvider);
       final profile = credentials.additionalUserInfo!.profile!;
+      final nickName = profile['login'];
+      final name = profile['name'];
+      final avatar = profile['avatar_url'];
       final isNewUser = credentials.additionalUserInfo!.isNewUser;
 
       DatabaseReference dbRef = FirebaseDatabase.instance.ref('users/${credentials.user!.uid}');
 
-      dbRef.set(
+      await dbRef.set(
         {
-          'nickName': profile['login'],
-          'name': profile['name'],
-          'avatar': profile['avatar_url'],
+          'nickName': nickName,
+          'name': name,
+          'avatar': avatar,
         },
       );
-
-      ref.read(userProvider.notifier).updateUser();
 
       if (!isNewUser) {
         Navigator.of(context).push(
@@ -43,7 +43,13 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       } else {
         if (context.mounted) {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+            MaterialPageRoute(
+              builder: (context) => OnboardingScreen(
+                nickName: nickName,
+                name: name,
+                avatar: avatar,
+              ),
+            ),
           );
         }
       }
@@ -68,6 +74,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                 fontWeight: FontWeight.bold,
               ),
         ),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: ElevatedButton.icon(

@@ -17,7 +17,9 @@ Future<my_user.User?> fetchUser() async {
     avatar: userData['avatar'],
   );
 
-  user.skills = (userData['skills'] as List<Object?>).map((e) => e.toString()).toList();
+  if (userData['skills'] != null && (userData['skills'] as List<Object?>).isNotEmpty) {
+    user.skills = (userData['skills'] as List<Object?>).map((e) => e.toString()).toList();
+  }
 
   return user;
 }
