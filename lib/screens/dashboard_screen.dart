@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:skillshunt/providers/skills_provider.dart';
 import 'package:skillshunt/providers/user_provider.dart';
 import 'package:skillshunt/screens/insights_screen.dart';
 import 'package:skillshunt/screens/my_learning_screen.dart';
