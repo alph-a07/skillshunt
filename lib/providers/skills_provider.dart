@@ -23,6 +23,10 @@ class SelectedSkillsNotifier extends StateNotifier<List<String>> {
 
     dbRef.update({'skills': state});
   }
+
+  void updateSkills(skills) {
+    state = skills;
+  }
 }
 
 final selectedSkillsProvider =
