@@ -52,7 +52,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => SignupScreen()));
+                      .push(MaterialPageRoute(builder: (context) => const SignupScreen()));
                 },
                 icon: const Icon(Icons.power_settings_new_rounded))
           ],
@@ -68,6 +68,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             BottomNavigationBarItem(icon: Icon(Icons.auto_graph_rounded), label: 'Insights')
           ],
         ),
+        floatingActionButton: _selectedPageIndex == 0
+            ? FloatingActionButton.extended(
+                onPressed: () {},
+                label: const Text('New skill'),
+                icon: const Icon(Icons.add),
+              )
+            : const SizedBox(),
       ),
     );
   }
